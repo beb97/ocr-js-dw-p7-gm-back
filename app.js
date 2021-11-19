@@ -6,6 +6,7 @@ const db = require("./models/index.js");
 const indexRoutes = require('./routes/index')
 const userRoutes = require('./routes/user')
 const postRoutes = require('./routes/post')
+const commentRoutes = require('./routes/comment')
 
 // Autoriser les requêtes CORS depuis le backend
 app.use((req, res, next) => {
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use('/', indexRoutes);
 app.use('/user', userRoutes);
 app.use('/post', postRoutes);
+app.use('/comment', commentRoutes);
 
 // Repertoire statiques
 app.use(express.static("public"));
