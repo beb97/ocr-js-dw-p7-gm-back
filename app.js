@@ -1,9 +1,12 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
-
-
 const app = express();
+const db = require("./models/index.js");
+const indexRoutes = require('./routes/index')
+const userRoutes = require('./routes/user')
 
+// Autoriser les requêtes CORS depuis le backend
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -11,10 +14,28 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/', indexRoutes);
+// Pour utiliser du JSON en body
+app.use(express.urlencoded({extended: true}));
+app.use(express.json())
 
-// Repertoire des fichier HTML / CSS / JS...
+// Les routes
+app.use('/', indexRoutes);
+app.use('/user', userRoutes);
+
+// Repertoire statiques
 app.use(express.static("public"));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// Synchro (création au besoin) des tables de la database.
+db.sequelize.sync();
+
+// In development, you may need to drop existing tables and re-sync database.
+// Just use force: true as following code:
+
+/*
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and re-sync db.");
+});
+*/
 
 module.exports = app;

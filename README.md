@@ -1,9 +1,32 @@
-## Piquante
+##
+* npm install : pour installer
+* npm start : pour lancer le projet
 
-Le projet a été généré avec [Angular CLI](https://github.com/angular/angular-cli) version 7.0.2.
+## mysql server
+TCP-IP
+* port : 3306
+* windows service name : MySQL80
+* URL :
+* login : root 
+* password : root
 
-Pour faire fonctionner le projet, vous devez installer node-sass à part.
+## sequelize tuto 
+* Mise en place : 
+https://www.bezkoder.com/node-js-express-sequelize-mysql/
+* Associations : 
+  https://www.bezkoder.com/sequelize-associate-one-to-many/
 
-## Development server
+## mysql connect SHELL
+mysql --host=localhost --user=root --password=root groupomania
+show databases;
+use groupomania;
+show tables;
+select * from users;
 
-Démarrer `ng serve` pour avoir accès au serveur de développement. Rendez-vous sur `http://localhost:4200/`. L'application va se recharger automatiquement si vous modifiez un fichier source.
+## mysql workbench bug
+* Open language settings
+* Click "Administrative language settings" at the right top of the Window
+* Click "Change system locale"
+* Select English (United States) for example
+* Click OK
+* Restart the system
