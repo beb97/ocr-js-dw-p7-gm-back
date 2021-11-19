@@ -1,10 +1,11 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const app = express();
 const db = require("./models/index.js");
 const indexRoutes = require('./routes/index')
 const userRoutes = require('./routes/user')
+const postRoutes = require('./routes/post')
 
 // Autoriser les requêtes CORS depuis le backend
 app.use((req, res, next) => {
@@ -17,10 +18,13 @@ app.use((req, res, next) => {
 // Pour utiliser du JSON en body
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
+app.use(cookieParser());
+
 
 // Les routes
 app.use('/', indexRoutes);
 app.use('/user', userRoutes);
+app.use('/post', postRoutes);
 
 // Repertoire statiques
 app.use(express.static("public"));
@@ -31,11 +35,9 @@ db.sequelize.sync();
 
 // In development, you may need to drop existing tables and re-sync database.
 // Just use force: true as following code:
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and re-sync db.");
+// });
 
-/*
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync db.");
-});
-*/
 
 module.exports = app;

@@ -6,7 +6,17 @@ exports.findAll = async function () {
         const users = await User.findAll();
         return users;
     } catch (e) {
-        throw Error('Error while getting Users : '+e.message)
+        throw Error('error while getting Users : '+e.message)
+    }
+}
+
+exports.find = async function (pUser) {
+    try {
+        console.log(pUser);
+        const users = await User.findOne({where: pUser});
+        return users;
+    } catch (e) {
+        throw Error('error while getting Users : '+e.message)
     }
 }
 
@@ -15,7 +25,19 @@ exports.create = async function (pUser) {
         const user = await User.create(pUser);
         return user;
     } catch (e) {
-        throw Error('Error while getting Users : '+e.message)
+        throw Error('error while getting Users : '+e.message)
+    }
+}
+
+exports.update = async function (pUser, id) {
+    try {
+        const user = await User.update(
+            {...pUser},
+            {where: {id: id}}
+        )
+        return user;
+    } catch (e) {
+        throw Error('error while deleting Users : '+e.message)
     }
 }
 
@@ -30,9 +52,9 @@ exports.delete = async function (id) {
         // }
         else {
             await User.destroy({ where: {id: id} });
-            return {message: 'User supprimée  !'};
+            return {message: 'user deleted  !'};
         }
     } catch (e) {
-        throw Error('Error while getting Users : '+e.message)
+        throw Error('error while deleting Users : '+e.message)
     }
 }
