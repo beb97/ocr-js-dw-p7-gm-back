@@ -5,7 +5,20 @@ module.exports = (req, res, next) => {
         // Passer sur un usage cookie
         if(!req.cookies.token) {
             // 401 Unauthorized
-            return res.status(401).send();
+            return res.status(401).json({error: 'No token found'});
+        }
+
+        let decodedToken;
+        try {
+            let token = req.cookies.token;
+            decodedToken = jwt.verify(token, "NOT_REALLY_SECRET");
+        } catch (err) {
+            return res.status(401).json({error: 'Invalid token'});
+        }
+
+        const userId = decodedToken.userId;
+        if(!userId) {
+            return res.status(401).json({error: 'Invalid user'});
         }
 
         next();
