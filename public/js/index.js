@@ -11,6 +11,7 @@ function createPosts(posts) {
     for(let post of posts) {
         createPost(post);
     }
+    document.querySelector("#item-template").remove();
 }
 
 function createPost(item) {
@@ -18,10 +19,12 @@ function createPost(item) {
     let itemTemplate = document.querySelector("#item-template");
     let tableClone = itemTemplate.cloneNode(true)
 
+    tableClone.removeAttribute('id');
     // tableClone.getElementsByClassName("item-link")[0].setAttribute("href", "/");
     tableClone.querySelector(".message").innerHTML = item.message;
-    tableClone.querySelector(".author").innerHTML = item.user.email;
+    tableClone.querySelector(".date").innerHTML = "at: "+item.createdAt;
+    tableClone.querySelector(".author").innerHTML = "by: "+item.user.email;
     // tableClone.getElementsByClassName("img")[0].setAttribute("src", "/");
-    
+
     document.getElementById("item-list").appendChild(tableClone);
 }
