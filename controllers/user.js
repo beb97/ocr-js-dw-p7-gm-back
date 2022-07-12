@@ -14,7 +14,7 @@ exports.findAll = async function (req, res) {
 
 exports.find = async function (req, res) {
     console.log("user.findAll");
-    const id = {"id":req.params.id};
+    const id = { "id": req.params.id };
     try {
         const user = await userService.find(id)
         return res.status(200).json(user)
@@ -39,10 +39,10 @@ exports.update = async function (req, res) {
     console.log("user.update");
     const id = req.params.id
     const user = {
-        email : req.body.email
+        email: req.body.email
     }
     try {
-        const users = await userService.update(user,id)
+        const users = await userService.update(user, id)
         return res.status(200).json(users)
     } catch (error) {
         return res.status(400).json(error.message)
@@ -63,18 +63,18 @@ exports.delete = async function (req, res) {
 
 exports.login = async function (req, res) {
     console.log("user.login");
-    let pUser = {email:req.body.email};
+    let pUser = { email: req.body.email };
     let pPassword = req.body.password;
 
     try {
         const user = await userService.find(pUser)
-        if(!user) {
+        if (!user) {
             throw Error('incorrect password or username')
         }
 
         // Passwords order matter ! (plain, hashed)
         let arePasswordsMatching = await bcrypt.compare(pPassword, user.password);
-        if(!arePasswordsMatching) {
+        if (!arePasswordsMatching) {
             throw Error('incorrect password or username')
         }
 
@@ -86,7 +86,23 @@ exports.login = async function (req, res) {
         )
 
         // In order to set cookies in the browser, you would need to include the ‘credentials’ option with your request, to allow the server to set cookies.
-        return res.cookie('token', token).status(200).json(user);
+        let expires = new Date(Date.now() + 60 * 60 * 24 * 1000);
+        const response = {
+            email: user.email,
+            id: user.id,
+            expires: expires,
+            token: token
+        }
+
+        // https://web.dev/i18n/fr/samesite-cookies-explained/
+        // let cookieOptions = { sameSite: 'none', secure: true };
+        // let cookieOptions = { 
+        //     sameSite: 'Strict',
+        //     httpOnly: true,
+        //     expires: expires,
+        // };
+        return res.status(200).json(response);
+        // return res.cookie('token', token, cookieOptions).status(200).json(response);
     } catch (error) {
         return res.status(400).json(error.message)
     }

@@ -30,7 +30,7 @@ exports.create = async function (pPost) {
         const post = await Post.create(pPost);
         return post;
     } catch (e) {
-        throw Error('error while getting Posts : '+e.message)
+        throw Error('error while creating Posts : '+e.message)
     }
 }
 

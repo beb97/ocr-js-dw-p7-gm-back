@@ -1,4 +1,5 @@
 const postService = require('../services/post');
+const userService = require('../services/user');
 
 exports.findAll = async function (req, res) {
     console.log("post.findAll");
@@ -24,7 +25,11 @@ exports.find = async function (req, res) {
 exports.create = async function (req, res) {
     console.log("post.create");
     const pPost = req.body;
-
+    // const user = await userService.find(1);
+    // pPost.user = user;
+    console.log("controler create req", res.locals.user);
+    // pPost.userId = 1;
+    pPost.userId = res.locals.user;
     try {
         const post = await postService.create(pPost)
         return res.status(200).json(post)
