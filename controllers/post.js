@@ -12,10 +12,10 @@ exports.findAll = async function (req, res) {
 };
 
 exports.find = async function (req, res) {
-    console.log("post.findAll");
-    const id = {"id":req.params.id};
+    console.log("post.find");
+    const id = {id:req.params.id};
     try {
-        const post = await postService.find(id)
+        const post = await postService.find(id);
         return res.status(200).json(post)
     } catch (error) {
         return res.status(400).json(error.message)
@@ -25,10 +25,7 @@ exports.find = async function (req, res) {
 exports.create = async function (req, res) {
     console.log("post.create");
     const pPost = req.body;
-    // const user = await userService.find(1);
-    // pPost.user = user;
-    console.log("controler create req", res.locals.user);
-    // pPost.userId = 1;
+    // console.log("controler create req", res.locals.user);
     pPost.userId = res.locals.user;
     try {
         const post = await postService.create(pPost)

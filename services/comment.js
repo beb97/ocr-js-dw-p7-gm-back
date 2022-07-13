@@ -9,13 +9,13 @@ exports.findAll = async function () {
             attributes: {exclude: ['createdAt', 'updatedAt']},
             include: [
                 {
-                model:User,
-                    as:"user",
+                    model:User,
+                    // as:"user",
                     attributes: ['id','email'],
                 },
                 {
                     model: Post,
-                    as: "post",
+                    // as: "post",
                     attributes: {exclude: ['createdAt', 'updatedAt']},
                 }],
         });
@@ -43,7 +43,8 @@ exports.create = async function (pComment) {
         const comment = await Comment.create(pComment);
         return comment;
     } catch (e) {
-        throw Error('error while getting Comments : '+e.message)
+        console.log(e);
+        throw Error('error while creating Comments : '+e.message)
     }
 }
 

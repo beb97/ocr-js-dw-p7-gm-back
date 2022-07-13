@@ -4,6 +4,7 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
     dialect: dbConfig.dialect,
+    logging: false,
     pool: {
         max: dbConfig.pool.max,
         min: dbConfig.pool.min,
@@ -23,18 +24,19 @@ db.comments = require("./comment.js")(sequelize, Sequelize);
 
 db.users.hasMany(db.posts);
 db.users.hasMany(db.comments);
+
 db.posts.hasMany(db.comments);
 db.posts.belongsTo(db.users, {
-    foreignKey : "userId",
-    as: "user"
+    // foreignKey : "userId",
+    // as: "user"
 })
 db.comments.belongsTo(db.users, {
-    foreignKey : "userId",
-    as: "user"
+    // foreignKey : "userId",
+    // as: "user"
 })
 db.comments.belongsTo(db.posts, {
-    foreignKey : "postId",
-    as: "post"
+    // foreignKey : "postId",
+    // as: "post"
 })
 
 

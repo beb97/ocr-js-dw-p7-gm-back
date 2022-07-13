@@ -23,7 +23,12 @@ exports.find = async function (req, res) {
 
 exports.create = async function (req, res) {
     console.log("comment.create");
-    const pComment = req.body;
+    let pComment = req.body;
+    pComment.userId = res.locals.user;
+    // pComment.postId = parseInt(req.body.postId);
+    console.log("ctrl comment: ", pComment)
+
+    console.log(pComment);
 
     try {
         const comment = await commentService.create(pComment)

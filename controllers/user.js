@@ -63,7 +63,8 @@ exports.delete = async function (req, res) {
 
 exports.login = async function (req, res) {
     console.log("user.login");
-    let pUser = { email: req.body.email };
+    let pUser = { pseudo: req.body.pseudo };
+    // let pUser = { email: req.body.email };
     let pPassword = req.body.password;
 
     try {
@@ -89,6 +90,7 @@ exports.login = async function (req, res) {
         let expires = new Date(Date.now() + 60 * 60 * 24 * 1000);
         const response = {
             email: user.email,
+            pseudo: user.pseudo,
             id: user.id,
             expires: expires,
             token: token
