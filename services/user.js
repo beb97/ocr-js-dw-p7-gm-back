@@ -12,7 +12,7 @@ exports.findAll = async function () {
 
 exports.find = async function (pUser) {
     try {
-        console.log(pUser);
+        // console.log(pUser);
         const users = await User.findOne({where: pUser});
         return users;
     } catch (e) {

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const userService = require('../services/user');
 
-module.exports = (req, res, next) => {
+module.exports = async function(req, res, next) {
     try {
         // Passer sur un usage cookie
         // console.log("auth", req.headers.authorization);
@@ -23,9 +24,20 @@ module.exports = (req, res, next) => {
         if(!userId) {
             return res.status(401).json({error: 'Invalid user'});
         }
+        // console.log("userId from token :" , userId);
 
-        res.locals.user = userId;
-        // console.log("locals userId", res.locals.user);
+        const id = { "id": userId };
+        let user;
+        try {
+            user = await userService.find(id);
+            if(!user) throw Error('User not found');
+            res.locals.user = user.dataValues;
+        } catch (error) {
+            return res.status(401).json({error: error.message});
+        }
+
+        // console.log("locals-user", res.locals.user);
+
         next();
 
     } catch {

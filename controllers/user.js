@@ -1,6 +1,7 @@
 const userService = require('../services/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const h = require('./helpers');
 
 exports.findAll = async function (req, res) {
     console.log("user.findAll");
@@ -13,10 +14,13 @@ exports.findAll = async function (req, res) {
 };
 
 exports.find = async function (req, res) {
-    console.log("user.findAll");
+    console.log("user.find");
     const id = { "id": req.params.id };
     try {
         const user = await userService.find(id)
+
+        if (!user) res.status(404).json({ error: 'user not found' })
+
         return res.status(200).json(user)
     } catch (error) {
         return res.status(400).json(error.message)
@@ -38,12 +42,17 @@ exports.create = async function (req, res) {
 exports.update = async function (req, res) {
     console.log("user.update");
     const id = req.params.id
-    const user = {
-        email: req.body.email
+    const body = {
+        email: req.body.email,
+        pseudo: req.body.pseudo
     }
     try {
-        const users = await userService.update(user, id)
-        return res.status(200).json(users)
+
+        const user = await userService.find({ id: id })
+        if (!h.isOwnerOrAdmin(user.userId, res.locals.user)) throw new Error("not your user")
+
+        const result = await userService.update(body, id)
+        return res.status(200).json(result)
     } catch (error) {
         return res.status(400).json(error.message)
     }
@@ -54,8 +63,12 @@ exports.delete = async function (req, res) {
     const id = req.params.id;
 
     try {
-        const users = await userService.delete(id)
-        return res.status(200).json(users)
+
+        const user = await userService.find({ id: id })
+        if (!h.isOwnerOrAdmin(user.userId, res.locals.user)) throw new Error("not your user")
+
+        const result = await userService.delete(id)
+        return res.status(200).json(result)
     } catch (error) {
         return res.status(400).json(error.message)
     }
@@ -81,6 +94,7 @@ exports.login = async function (req, res) {
 
         // TODO : changer le secret
         let token = jwt.sign(
+            // { userId: 69 },
             { userId: user.id },
             "NOT_REALLY_SECRET",
             { expiresIn: '24h' }
@@ -92,6 +106,7 @@ exports.login = async function (req, res) {
             email: user.email,
             pseudo: user.pseudo,
             id: user.id,
+            isAdmin: user.isAdmin,
             expires: expires,
             token: token
         }

@@ -25,18 +25,27 @@ exports.findAll = async function () {
     }
 }
 
-exports.find = async function (pComment) {
+let find = async function(pComment) {
+    console.log("service.find")
     try {
         console.log(pComment);
         const comments = await Comment.findOne(
-            {include: ["user", "post"]},
-            {where: pComment},
+            {
+                where: pComment,
+                include: ["user", "post"]
+            },
         );
         return comments;
     } catch (e) {
         throw Error('error while getting Comments : '+e.message)
     }
 }
+module.exports.find = find;
+
+let findByPk = async function (id) {
+    return await find({id: id});
+}
+module.exports.findByPk = findByPk;
 
 exports.create = async function (pComment) {
     try {

@@ -49,6 +49,15 @@ exports.find = async function (pPost) {
                     model: User,
                     attributes: ["id", "pseudo"],
                 },
+                {
+                    model: db.likes,
+                    attributes: ["id"],
+                    include: [{
+                        model: User,
+                        attributes: ["id", "pseudo"],
+                    }]
+                    // attributes: ["userId", "pseudo"]
+                }
             ]
         });
         return posts;
@@ -63,6 +72,32 @@ exports.create = async function (pPost) {
         return post;
     } catch (e) {
         throw Error('error while creating Posts : ' + e.message)
+    }
+}
+
+exports.like = async function (pPost) {
+    try {
+        const post = await db.likes.create(pPost);
+        return post;
+    } catch (e) {
+        throw Error('error while liking Posts : ' + e.message)
+    }
+}
+
+exports.unlike = async function (pPost) {
+    try {
+        // console.log(pPost);
+        const like = await db.likes.findOne({where: pPost});
+        if (!like) {
+            throw Error('no like')
+        }
+        else {
+            await db.likes.destroy({ where: { id: like.id } });
+            return { message: 'like deleted  !' };
+        }
+
+    } catch (e) {
+        throw Error('error while uniking Posts : ' + e.message)
     }
 }
 
