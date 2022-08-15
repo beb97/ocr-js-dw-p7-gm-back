@@ -7,7 +7,7 @@ exports.findAll = async function (req, res) {
         const comments = await commentService.findAll()
         return res.status(200).json(comments)
     } catch (error) {
-        return res.status(400).json({error : error.message})
+        return res.status(400).json({error:error.message})
     }
 };
 

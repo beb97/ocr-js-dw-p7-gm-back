@@ -9,7 +9,7 @@ exports.findAll = async function (req, res) {
         const users = await userService.findAll()
         return res.status(200).json(users)
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 };
 
@@ -23,7 +23,7 @@ exports.find = async function (req, res) {
 
         return res.status(200).json(user)
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 };
 
@@ -35,7 +35,7 @@ exports.create = async function (req, res) {
         const user = await userService.create(pUser)
         return res.status(200).json(user)
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 };
 
@@ -54,7 +54,7 @@ exports.update = async function (req, res) {
         const result = await userService.update(body, id)
         return res.status(200).json(result)
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 };
 
@@ -70,7 +70,7 @@ exports.delete = async function (req, res) {
         const result = await userService.delete(id)
         return res.status(200).json(result)
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 };
 
@@ -121,7 +121,7 @@ exports.login = async function (req, res) {
         return res.status(200).json(response);
         // return res.cookie('token', token, cookieOptions).status(200).json(response);
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 }
 
@@ -134,7 +134,7 @@ exports.signup = async function (req, res) {
         const user = await userService.create(pUser)
         return res.status(200).json(user)
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 }
 

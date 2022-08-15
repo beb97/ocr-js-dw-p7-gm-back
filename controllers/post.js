@@ -9,7 +9,7 @@ exports.findAll = async function (req, res) {
         const posts = await postService.findAll()
         return res.status(200).json(posts)
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 };
 
@@ -22,7 +22,7 @@ exports.find = async function (req, res) {
         const post = await postService.find(id);
         return res.status(200).json(post)
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 };
 
@@ -34,7 +34,7 @@ exports.create = async function (req, res) {
         const post = await postService.create(pPost)
         return res.status(200).json(post)
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 };
 
@@ -46,7 +46,7 @@ exports.like = async function (req, res) {
         const like = await likeService.create(pPost)
         return res.status(200).json(like)
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 };
 
@@ -62,7 +62,7 @@ exports.unlike = async function (req, res) {
         const result = await likeService.delete(pPost)
         return res.status(200).json(result)
     } catch (error) {
-        return res.status(400).json(error.message)
+        return res.status(400).json({error:error.message})
     }
 };
 
