@@ -6,6 +6,7 @@ const db = require("./models/index.js");
 const indexRoutes = require('./routes/index')
 const userRoutes = require('./routes/user')
 const postRoutes = require('./routes/post')
+const authRoutes = require('./routes/auth')
 const commentRoutes = require('./routes/comment')
 
 // Autoriser les requêtes CORS depuis le backend
@@ -29,6 +30,7 @@ app.use(cookieParser());
 
 // Les routes
 app.use('/', indexRoutes);
+app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/post', postRoutes);
 app.use('/comment', commentRoutes);

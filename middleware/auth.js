@@ -17,9 +17,7 @@ module.exports = async function (req, res, next) {
       // console.log("token",token);
       decodedToken = jwt.verify(token, "NOT_REALLY_SECRET");
     } catch (err) {
-      return res
-        .status(401)
-        .json({ error: "Invalid token - possibly expired" });
+      return res.status(401).json({ error: "Invalid token - expired ?" });
     }
 
     const userId = decodedToken.userId;
@@ -38,15 +36,11 @@ module.exports = async function (req, res, next) {
       delete user.dataValues.password;
       res.locals.user = user.dataValues;
     } catch (error) {
-      return res
-        .status(401)
-        .json({ error: "While searching user : " + error.message });
+      return res.status(401).json({ error: "User : " + error.message });
     }
-
-    // console.log("locals-user", res.locals.user);
 
     next();
   } catch (e) {
-    res.status(401).json({ error: "Invalid request : " + e.message });
+    return res.status(401).json({ error: "Invalid request : " + e.message });
   }
 };
