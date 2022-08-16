@@ -12,7 +12,6 @@ exports.findAll = async function () {
 
 exports.find = async function (pUser) {
     try {
-        // console.log(pUser);
         const users = await User.findOne({where: pUser});
         return users;
     } catch (e) {
@@ -47,9 +46,6 @@ exports.delete = async function (id) {
         if (!user) {
             throw Error('no user')
         }
-        // else if(user.userId !== userId ) {
-        //     throw Error('not your user')
-        // }
         else {
             await User.destroy({ where: {id: id} });
             return {message: 'user deleted  !'};

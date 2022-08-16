@@ -48,7 +48,7 @@ exports.update = async function (req, res) {
   };
   try {
     const user = await userService.find({ id: id });
-    if (!h.isOwnerOrAdmin(user.userId, res.locals.user))
+    if (!h.isOwnerOrAdmin(user.id, res.locals.user))
       throw new Error("not your user");
 
     const result = await userService.update(body, id);
@@ -64,7 +64,7 @@ exports.delete = async function (req, res) {
 
   try {
     const user = await userService.find({ id: id });
-    if (!h.isOwnerOrAdmin(user.userId, res.locals.user))
+    if (!h.isOwnerOrAdmin(user.id, res.locals.user))
       throw new Error("not your user");
 
     const result = await userService.delete(id);
@@ -139,3 +139,9 @@ exports.signup = async function (req, res) {
     return res.status(400).json({ error: error.message });
   }
 };
+
+exports.info = async function (req, res) {
+  console.log("user.info");
+  return res.status(200).json(res.locals.user);
+};
+
