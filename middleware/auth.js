@@ -17,7 +17,11 @@ module.exports = async function (req, res, next) {
       // console.log("token",token);
       decodedToken = jwt.verify(token, "NOT_REALLY_SECRET");
     } catch (err) {
-      return res.status(401).json({ error: "Invalid token - expired ?" });
+      console.log(err);
+      if(err.name === "TokenExpiredError") {
+        return res.status(401).json({ error: "Expired token" })
+      }
+      return res.status(401).json({ error:  err.name+" : "+ err.message});
     }
 
     const userId = decodedToken.userId;
