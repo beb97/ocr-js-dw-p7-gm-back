@@ -35,7 +35,7 @@ exports.find = async function (pPost) {
         const posts = await Post.findOne({
             // logging: console.log,
             where: pPost,
-            attributes: {exclude: ['userId', 'updatedAt']},
+            attributes: {exclude: ['updatedAt']},
             include: [
                 {
                     model: Comment,

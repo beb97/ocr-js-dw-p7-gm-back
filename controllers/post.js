@@ -74,7 +74,6 @@ exports.update = async function (req, res) {
         titre: req.body.titre
     }
     try {
-
         const post = await postService.find({id:id})
         if( ! h.isOwnerOrAdmin(post.userId, res.locals.user)) throw new Error("not your post") 
 
