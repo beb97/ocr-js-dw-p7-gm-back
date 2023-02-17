@@ -34,11 +34,11 @@ db.posts.belongsTo(db.users, {
     // as: "user"
 })
 
-db.comments.belongsTo(db.users, {})
-db.comments.belongsTo(db.posts, {})
+db.comments.belongsTo(db.users)
+db.comments.belongsTo(db.posts)
 
-db.likes.belongsTo(db.posts, {})
-db.likes.belongsTo(db.users, {})
+db.likes.belongsTo(db.posts)
+db.likes.belongsTo(db.users)
 
 
 module.exports = db;

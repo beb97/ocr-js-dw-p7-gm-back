@@ -60,6 +60,7 @@ exports.create = async function (pComment) {
 exports.update = async function (pComment, id) {
     try {
         const comment = await Comment.update(
+            // Spread opérator déconseillé
             {...pComment},
             {where: {id: id}}
         )

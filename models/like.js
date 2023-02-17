@@ -8,7 +8,8 @@ module.exports = (sequelize, Sequelize) => {
                     fields: ['userId', 'postId']
                 }
             }
-        });
+        }
+        );
 
     return Like;
 }
